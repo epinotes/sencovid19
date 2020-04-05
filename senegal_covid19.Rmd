@@ -23,6 +23,9 @@ total <- sen_total
 library(knitr)
 library(rmarkdown)
 library(flexdashboard)
+library(shiny)
+library(tsibble)
+library(tidycovid19)
 
 ```
 
@@ -49,13 +52,8 @@ Row
     
 ```{r}
 valueBox(value = gueris,
+         icon = "fa-thumbs-up",
          color = "#35B779FF")
-         #icon = "fa-medkit")
-
-# valueBox( color = "#33A02C", icon = "fa-medkit")
- 
- 
-# valueBox( color = "#6A3D9A", icon = "fa-ambulance")
  
 
 ```
@@ -64,8 +62,8 @@ valueBox(value = gueris,
     
 ```{r}
 flexdashboard::valueBox(value = total,
-         color =  "#FDE725FF")
-         # icon = "fa-plus-square")
+                        icon = "fa-area-chart",
+                        color =  "#FDE725FF")
  
 
 ```
@@ -75,8 +73,8 @@ flexdashboard::valueBox(value = total,
 
 ```{r}
 valueBox(value = decedes,
-         color = "#F1605DFF") 
-         # icon = "fa-ambulance")
+         icon = "fa-heartbeat",
+         color = "#F1605DFF")
 
 ```
 
@@ -90,7 +88,7 @@ Epicurves
 Row
 ------------------------------------- 
 
-### Epicurve - Incidene 
+### Epicurve - Incidence 
 
 
 ```{r epicurvec, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
@@ -117,10 +115,57 @@ cum_epi
 
 </br>
 
+Comparison Mondiale
+=====================================   
+
+</br>
+
+Row
+-------------------------------------   
+
+### Senegal compare Au Reste du Monde Depuis Le 100eme Cas
+
+```{r world, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
+# 
+# Download latest data
+updates <- download_merged_data(cached = TRUE)
+# Countries to highlight
+countries <- c("SEN", "FRA", "ITA", "ESP", "USA", "GBR", "CHN", "KOR")
+w_plot <- updates %>%
+  plot_covid19_spread(
+    highlight = countries,
+    type = "confirmed",
+    edate_cutoff = 40
+  )
+
+w_plot
+
+```
+
+
+</br>
+
 Sources
 =====================================   
 
+</br>
+
+Row
+-------------------------------------   
+
+### Communiques Quotidiens  
 
 [Communiques Quotidiens Du Ministere De La Sante Du Senegal](http://www.sante.gouv.sn/Pr%C3%A9sentation/coronavirus-informations-officielles-et-quotidiennes-du-msas){target="_blank"}
 
+</br>
+
+Row
+-------------------------------------   
+
+### Tableau Des Cas Confirmes Par Jour
+
+
+```{r daily} 
+gt::gt(covid19_daily)
+```
 
