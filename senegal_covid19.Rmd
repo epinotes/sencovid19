@@ -1,0 +1,126 @@
+---
+title: "Donnees Quotidiennes Des Cas de COVID 19 Au Senegal"   
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+# options(scipen = 12)
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      comment = NA,
+                      error   = FALSE,
+                      warning = FALSE,
+                      cache = FALSE)
+
+source("R/sencovid19.R")
+
+decedes <- sencovid_rec$nombre_deces 
+gueris <- sencovid_rec$nombre_gueris
+total <- sen_total
+library(knitr)
+library(rmarkdown)
+library(flexdashboard)
+
+```
+
+
+Sommaire
+=====================================
+
+</br>
+
+  Les donnees proviennent principalement des communiques officiels du ministere de la sante du gouvernement du Senegal. 
+  Les dernieres donnees sont en date du __`r last_date `__
+  
+</br>
+
+
+ 
+    
+Row
+-------------------------------------   
+
+
+
+### Gueris  
+    
+```{r}
+valueBox(value = gueris,
+         color = "#35B779FF")
+         #icon = "fa-medkit")
+
+# valueBox( color = "#33A02C", icon = "fa-medkit")
+ 
+ 
+# valueBox( color = "#6A3D9A", icon = "fa-ambulance")
+ 
+
+```
+
+### Confirmes  
+    
+```{r}
+flexdashboard::valueBox(value = total,
+         color =  "#FDE725FF")
+         # icon = "fa-plus-square")
+ 
+
+```
+
+
+### Decedes  
+
+```{r}
+valueBox(value = decedes,
+         color = "#F1605DFF") 
+         # icon = "fa-ambulance")
+
+```
+
+</br>
+
+
+Epicurves
+=====================================
+
+
+Row
+------------------------------------- 
+
+### Epicurve - Incidene 
+
+
+```{r epicurvec, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
+
+sen_epic2
+
+  
+
+```
+
+</br>
+
+Row
+-------------------------------------   
+
+### Epicurve - Cumulative
+
+
+```{r epi_cc, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
+
+cum_epi
+
+```
+
+</br>
+
+Sources
+=====================================   
+
+
+[Communiques Quotidiens Du Ministere De La Sante Du Senegal](http://www.sante.gouv.sn/Pr%C3%A9sentation/coronavirus-informations-officielles-et-quotidiennes-du-msas){target="_blank"}
+
+
