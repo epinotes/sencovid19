@@ -130,7 +130,7 @@ Row
 # Download latest data
 updates <- download_merged_data(cached = TRUE)
 # Countries to highlight
-countries <- c("SEN", "FRA", "ITA", "ESP", "USA", "GBR", "CHN", "KOR")
+countries <- c("SEN", "ZAF","MAR","FRA", "ITA", "ESP", "USA", "CHN")
 w_plot <- updates %>%
   plot_covid19_spread(
     highlight = countries,
@@ -138,7 +138,7 @@ w_plot <- updates %>%
     edate_cutoff = 40
   )
 
-w_plot
+ggplotly(w_plot)
 
 ```
 
@@ -166,6 +166,23 @@ Row
 
 
 ```{r daily} 
-gt::gt(covid19_daily)
+covid19_daily %>% 
+         DT::datatable(caption = "Nombre de Cas Confirmes par Date",
+
+                rownames = FALSE,
+
+                extensions = 'Buttons',
+
+              filter = list(position = 'top', clear = FALSE),
+
+              options = list(
+
+                  pageLength = 10, dom = 'Bfrtip',
+
+    buttons = c('copy', 'csv'),
+
+    columnDefs = list(list(className = 'dt-left', targets = 1))
+
+  ))
 ```
 

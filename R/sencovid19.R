@@ -30,8 +30,8 @@ covid19_daily <- covid19_cas %>%
 sen_total <- sum(covid19_cas$nombre)
 
 gg_sen_epi <- covid19_cas  %>% 
-  ggplot(aes(date, nombre, fill = origine)) +
-  viridis::scale_fill_viridis(option = "D", discrete = T)+
+  ggplot(aes(date, nombre, fill = origine))+
+  viridis::scale_fill_viridis(option = "D", discrete = T, direction = -1)+
   geom_bar(stat = "identity", position = position_stack()) +
   ggtitle(glue::glue("Cas de COVID-19 Confirme au Senegal(total = {sen_total})"))+
   scale_y_continuous(breaks = breaks_pretty(16)) +
