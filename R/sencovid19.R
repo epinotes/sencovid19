@@ -14,6 +14,9 @@ covid19_cas <- covid19_cas %>%
   replace_na(list(origine = "Inconnu"))
 
 covid19_cas <- covid19_cas %>% 
+  mutate(origine = if_else(origine %in% c("Inconnue", "Senegal"), "Communautaire", "Importe"))
+
+covid19_cas <- covid19_cas %>% 
   count(date, origine) %>% 
   rename(nombre = n)
 
@@ -26,6 +29,7 @@ covid19_daily <- covid19_cas %>%
   group_by(date) %>% 
   summarise_at(vars(nombre), sum) %>% 
   ungroup()
+
   
 sen_total <- sum(covid19_cas$nombre)
 
@@ -33,7 +37,7 @@ gg_sen_epi <- covid19_cas  %>%
   ggplot(aes(date, nombre, fill = origine))+
   viridis::scale_fill_viridis(option = "D", discrete = T, direction = -1)+
   geom_bar(stat = "identity", position = position_stack()) +
-  ggtitle(glue::glue("Cas de COVID-19 Confirme au Senegal(total = {sen_total})"))+
+  ggtitle(glue::glue("Cas de COVID-19 Confirme au Senegal(total = {sen_total}) le {format.Date(max_dt - 1, format = '%d %B %Y')}"))+
   scale_y_continuous(breaks = breaks_pretty(16)) +
   scale_x_date(breaks = scales::breaks_pretty(10), 
                labels = date_format(format = "%d-%b", tz = "UTC"),
@@ -46,8 +50,11 @@ gg_sen_epi2 <- gg_sen_epi +
   geom_text(data = covid19_daily, aes(date, nombre, label = nombre), 
             size = 4, nudge_y = 0.5, inherit.aes = FALSE)
 
+ggsave("graphique/sen_epicurve.png", width = 9, height = 7)
 
 sen_epic2 <- ggplotly(gg_sen_epi2)
+
+ 
 
 # sen_epic <- ggplotly(gg_sen_epi)
 
