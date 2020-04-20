@@ -49,7 +49,6 @@ gg_sen_epi <- covid19_cas  %>%
 gg_sen_epi2 <- gg_sen_epi + 
   geom_text(data = covid19_daily, aes(date, nombre, label = nombre), 
             size = 4, nudge_y = 0.5, inherit.aes = FALSE)
-
 ggsave("graphique/sen_epicurve.png", width = 9, height = 7)
 
 sen_epic2 <- ggplotly(gg_sen_epi2)

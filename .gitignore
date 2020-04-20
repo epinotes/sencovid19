@@ -4,6 +4,5 @@
 .Ruserdata
 data_raw
 mapping.R
-*shiny.Rmd
 *world.R
 *.html

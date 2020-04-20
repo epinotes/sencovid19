@@ -1,0 +1,169 @@
+---
+title: "Donnees Quotidiennes Des Cas de COVID 19 Au Senegal"
+author: epinotes
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+runtime: shiny
+---
+
+<!-- https://epinotes.shinyapps.io/upload_file_for_OD_coding/ -->
+
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+library(DT)
+library(tidyverse)
+library(flexdashboard)
+library(shiny)
+library(tsibble)
+library(tidycovid19)
+library(ggthemes)
+library(plotly)
+
+source("R/sencovid19.R")
+
+decedes <- sencovid_rec$nombre_deces 
+gueris <- sencovid_rec$nombre_gueris
+total <- sen_total
+
+
+```
+
+Sommaire
+=====================================
+
+</br>
+
+  Les donnees proviennent principalement des communiques officiels du ministere de la sante du gouvernement du Senegal. 
+  Les dernieres donnees sont en date du __`r last_date `__
+  
+</br>
+
+
+ 
+    
+Row
+-------------------------------------   
+
+
+### Gueris  
+    
+```{r}
+valueBox(value = gueris,
+         icon = "fa-thumbs-up",
+         color = "#35B779FF")
+ 
+
+```
+
+### Confirmes  
+    
+```{r}
+flexdashboard::valueBox(value = total,
+                        icon = "fa-area-chart",
+                        color =  "#FDE725FF")
+ 
+
+```
+
+
+### Decedes  
+
+```{r}
+valueBox(value = decedes,
+         icon = "fa-heartbeat",
+         color = "#F1605DFF")
+
+```
+
+
+
+
+
+Epicurve - Incidence
+=====================================
+
+
+### Epicurve - Incidence 
+
+
+```{r}
+
+
+fluidPage( 
+mainPanel(
+  plotlyOutput("plot2", width = "100%")))
+
+output$plot2 <- renderPlotly({
+print(sen_epic2)
+})
+
+```
+
+Epicurve - Cumulative
+=====================================
+  
+
+### Epicurve - Cumulative
+
+
+```{r}
+
+
+fluidPage( 
+mainPanel(
+  plotlyOutput("plot3")))
+
+output$plot3 <- renderPlotly({
+print(cum_epi)
+})
+
+```
+
+Sources
+=====================================   
+
+</br>
+
+Row
+-------------------------------------   
+
+### Communiques Quotidiens  
+
+[Communiques Quotidiens Du Ministere De La Sante Du Senegal](http://www.sante.gouv.sn/Pr%C3%A9sentation/coronavirus-informations-officielles-et-quotidiennes-du-msas){target="_blank"}
+
+</br>
+
+Row
+-------------------------------------   
+
+### Tableau Des Cas Confirmes Par Jour
+
+```{r}
+
+fluidPage(DTOutput('tbl'))
+  
+    output$tbl = renderDT(
+      covid19_daily %>% 
+  DT::datatable(caption = "Nombre de Cas Confirmes par Date",
+                
+                rownames = FALSE,
+                
+                extensions = 'Buttons',
+                
+                filter = list(position = 'top', clear = FALSE),
+                
+                options = list(
+                  
+                  pageLength = 10, dom = 'Bfrtip',
+                  
+                  buttons = c('copy', 'csv'),
+                  
+                  columnDefs = list(list(className = 'dt-left', targets = 1))
+                  
+                ))
+    )
+
+```
+
