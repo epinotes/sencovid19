@@ -135,6 +135,8 @@ Row
 
 </br>
 
+Voir aussi la page [GitHub](https://github.com/epinotes/sencovid19) pour les codes R.
+
 Row
 -------------------------------------   
 
