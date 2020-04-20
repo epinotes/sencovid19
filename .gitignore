@@ -6,3 +6,6 @@ data_raw
 mapping.R
 *world.R
 *.html
+senegal_covid19.html
+sen_covid19.html
+rsconnect
