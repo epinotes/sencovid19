@@ -49,7 +49,8 @@ gg_sen_epi <- covid19_cas  %>%
 gg_sen_epi2 <- gg_sen_epi + 
   geom_text(data = covid19_daily, aes(date, nombre, label = nombre), 
             size = 4, nudge_y = 0.5, inherit.aes = FALSE)
-ggsave("graphique/sen_epicurve.png", width = 9, height = 7)
+
+# ggsave("graphique/sen_epicurve.png", width = 9, height = 7)
 
 sen_epic2 <- ggplotly(gg_sen_epi2)
 
@@ -83,3 +84,24 @@ ggplot(aes(date, cumule)) +
   theme(axis.text = element_text(size = 12), legend.position = "none")
 
 cum_epi <- ggplotly(p_cum)
+
+# table
+
+sen_dt <- covid19_daily %>% 
+  DT::datatable(caption = "Nombre de Cas Confirmes par Date",
+                
+                rownames = FALSE,
+                
+                extensions = 'Buttons',
+                
+                filter = list(position = 'top', clear = FALSE),
+                
+                options = list(
+                  
+                  pageLength = 10, dom = 'Bfrtip',
+                  
+                  buttons = c('copy', 'csv'),
+                  
+                  columnDefs = list(list(className = 'dt-left', targets = 1))
+                  
+                ))

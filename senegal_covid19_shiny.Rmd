@@ -5,6 +5,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: rows
     vertical_layout: scroll
+    theme: bootstrap  
 runtime: shiny
 ---
 
@@ -81,11 +82,11 @@ valueBox(value = decedes,
 
 
 
-Epicurve - Incidence
+Courbe Epi - Incidence
 =====================================
 
 
-### Epicurve - Incidence 
+### Courbe Epi - Incidence 
 
 
 ```{r}
@@ -101,7 +102,7 @@ print(sen_epic2)
 
 ```
 
-Epicurve - Cumulative
+Courbe Epi - Cumulee
 =====================================
   
 
