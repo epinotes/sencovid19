@@ -22,14 +22,21 @@ library(tidycovid19)
 library(ggthemes)
 library(plotly)
 
+# library(shinydashboard)
+# dashboardBody( tags$head( tags$meta(name = "viewport", contentwidth=1600"),uiOutput("body")))
+
 source("R/sencovid19.R")
 
-decedes <- sencovid_rec$nombre_deces 
-gueris <- sencovid_rec$nombre_gueris
-total <- sen_total
+decedes <- last(sencovid_cumule$total_decedes) 
+gueris <- last(sencovid_cumule$total_gueris) 
+total <- last(sencovid_cumule$total_confirmes)
+
+
 
 
 ```
+
+
 
 Sommaire
 =====================================

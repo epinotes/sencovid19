@@ -8,7 +8,9 @@ library(tidyverse)
 
 covid19_cas <- readr::read_csv("data/sencovid19.csv")
 
-sencovid_rec <- readr::read_csv("data/sencovid_rec.csv")
+# sencovid_rec <- readr::read_csv("data/sencovid_rec.csv")
+
+sencovid_cumule <- readr::read_csv("data/sencovid_cumule.csv")
 
 covid19_cas <- covid19_cas %>%
   replace_na(list(origine = "Inconnu"))
@@ -20,20 +22,58 @@ covid19_cas <- covid19_cas %>%
   count(date, origine) %>% 
   rename(nombre = n)
 
-last_date <- format(max(covid19_cas$date), "%d/%m/%Y")
+### new method
 
-min_dt <- min(covid19_cas$date)
-max_dt <- max(covid19_cas$date)+1
+covid19_cas_arch <- covid19_cas %>% 
+  group_by(origine) %>% 
+  summarise_at(vars(nombre), sum) %>% 
+  pivot_wider(names_from = origine, values_from = nombre)
 
-covid19_daily <- covid19_cas %>% 
+total_arch <- sum(covid19_cas$nombre)
+
+date_lx = max(covid19_cas$date)
+
+covid19_cumule_24 <- tibble(date = date_lx, nombre_importes = 0, total_confirmes = total_arch)
+
+sencovid_cum_x <- sencovid_cumule %>%
+  mutate_at(vars(matches("nombre|total")), as.numeric) %>% 
+  mutate(date = as.Date(date)) %>% 
+  group_by(date) %>% 
+  filter(Timestamp == max(Timestamp)) %>% 
+  select(date, nombre_importes, total_confirmes)
+
+sencovid_cum <- covid19_cumule_24 %>% 
+  bind_rows(sencovid_cum_x) %>% 
+  mutate(nombre_confirmes = c(0, diff(total_confirmes))) %>% 
+  slice(-1)
+
+sencovid_cum <- sencovid_cum %>% 
+  mutate(Communautaire = nombre_confirmes - nombre_importes,
+         Importe = nombre_importes) %>%
+  select(date, Communautaire, Importe) %>% 
+  pivot_longer(cols = -date, names_to = "origine", values_to = "nombre")
+
+covid19_cas2 <- covid19_cas %>% 
+  bind_rows(sencovid_cum)
+
+###
+
+last_date <- format(max(covid19_cas2$date), "%d/%m/%Y")
+
+min_dt <- min(covid19_cas2$date)
+max_dt <- max(covid19_cas2$date)+1
+
+covid19_daily <- covid19_cas2 %>% 
   group_by(date) %>% 
   summarise_at(vars(nombre), sum) %>% 
   ungroup()
 
   
-sen_total <- sum(covid19_cas$nombre)
+sen_total <- sum(covid19_cas2$nombre)
 
-gg_sen_epi <- covid19_cas  %>% 
+date_lx = max(covid19_cas2$date)
+
+gg_sen_epi <- covid19_cas2  %>% 
   ggplot(aes(date, nombre, fill = origine))+
   viridis::scale_fill_viridis(option = "D", discrete = T, direction = -1)+
   geom_bar(stat = "identity", position = position_stack()) +
@@ -63,7 +103,7 @@ sen_epic2 <- ggplotly(gg_sen_epi2)
 
 # cumulative --------------------------------------------------------------
 
-covid19_cum <- covid19_cas %>% 
+covid19_cum <- covid19_cas2 %>% 
   group_by(date) %>% 
   summarise_at(vars(nombre), sum) %>% 
   ungroup() %>% 

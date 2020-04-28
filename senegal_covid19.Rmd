@@ -4,6 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: rows
     vertical_layout: scroll
+    theme: bootstrap
 ---
 
 ```{r setup, include=FALSE}
@@ -17,9 +18,9 @@ knitr::opts_chunk$set(echo = FALSE,
 
 source("R/sencovid19.R")
 
-decedes <- sencovid_rec$nombre_deces 
-gueris <- sencovid_rec$nombre_gueris
-total <- sen_total
+decedes <- last(sencovid_cumule$total_decedes) 
+gueris <- last(sencovid_cumule$total_gueris) 
+total <- last(sencovid_cumule$total_confirmes)
 library(knitr)
 library(rmarkdown)
 library(flexdashboard)
