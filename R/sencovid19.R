@@ -36,8 +36,6 @@ date_lx = max(covid19_cas$date)
 covid19_cumule_24 <- tibble(date = date_lx, nombre_importes = 0, total_confirmes = total_arch)
 
 sencovid_cum_x <- sencovid_cumule %>%
-  mutate_at(vars(matches("nombre|total")), as.numeric) %>% 
-  mutate(date = as.Date(date)) %>% 
   group_by(date) %>% 
   filter(Timestamp == max(Timestamp)) %>% 
   select(date, nombre_importes, total_confirmes)
@@ -77,7 +75,7 @@ gg_sen_epi <- covid19_cas2  %>%
   ggplot(aes(date, nombre, fill = origine))+
   viridis::scale_fill_viridis(option = "D", discrete = T, direction = -1)+
   geom_bar(stat = "identity", position = position_stack()) +
-  ggtitle(glue::glue("Cas de COVID-19 Confirme au Senegal(total = {sen_total}) le {format.Date(max_dt - 1, format = '%d %B %Y')}"))+
+  ggtitle(glue::glue("Cas de COVID-19 Confirmes au Senegal(total = {sen_total}) le {format.Date(max_dt - 1, format = '%d %B %Y')}"))+
   scale_y_continuous(breaks = breaks_pretty(16)) +
   scale_x_date(breaks = scales::breaks_pretty(10), 
                labels = date_format(format = "%d-%b", tz = "UTC"),

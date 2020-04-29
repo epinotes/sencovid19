@@ -11,6 +11,8 @@ sencovid_cumule <- googlesheets4::read_sheet("https://docs.google.com/spreadshee
 
 sencovid_cumule <- sencovid_cumule %>% 
   mutate_all(unlist) %>% 
+  mutate_at(vars(matches("nombre|total")), as.numeric) %>% 
+  mutate(date = as.Date(date)) %>% 
   as.data.frame()
 
 readr::write_csv(sencovid_cumule, "data/sencovid_cumule.csv")
