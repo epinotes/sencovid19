@@ -31,6 +31,8 @@ decedes <- last(sencovid_cumule$total_decedes)
 gueris <- last(sencovid_cumule$total_gueris) 
 total <- last(sencovid_cumule$total_confirmes)
 
+testes <- last(sencovid_cumule$nombre_testes)
+
 
 
 
@@ -42,9 +44,11 @@ Sommaire
 =====================================
 
 </br>
-
-  Les donnees proviennent principalement des communiques officiels du ministere de la sante du gouvernement du Senegal. 
-  Les dernieres donnees sont en date du __`r last_date `__
+Les donnees proviennent principalement des communiques officiels du ministere de la sante du gouvernement du Senegal. 
+  Les dernieres donnees sont en date du __`r last_date `__.   
+  En ce meme jour __`r testes `__ personnes ont ete testees.   
+  Ouvrez les onglets ci-dessus pour les courbes epidemiologiques, la comparison avec d'autres pays, et les sources d'information y compris les codes `R`. 
+  
   
 </br>
 

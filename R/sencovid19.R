@@ -71,6 +71,9 @@ sen_total <- sum(covid19_cas2$nombre)
 
 date_lx = max(covid19_cas2$date)
 
+covid19_cas2 <- covid19_cas2 %>% 
+  mutate(origine = gsub("Communautaire", "Endogene", origine))
+
 gg_sen_epi <- covid19_cas2  %>% 
   ggplot(aes(date, nombre, fill = origine))+
   viridis::scale_fill_viridis(option = "D", discrete = T, direction = -1)+
