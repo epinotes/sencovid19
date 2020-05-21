@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE,
 
 source("R/sencovid19.R")
 
-decedes <- last(sencovid_cumule$total_decedes) 
+decedes <- max(sencovid_cumule$total_decedes) 
 gueris <- last(sencovid_cumule$total_gueris) 
 total <- last(sencovid_cumule$total_confirmes)
 testes <- last(sencovid_cumule$nombre_testes)
@@ -140,7 +140,7 @@ w_plot <- updates %>%
   plot_covid19_spread(
     highlight = countries,
     type = "confirmed",
-    edate_cutoff = 40
+    edate_cutoff = 60
   )
 
 ggplotly(w_plot)

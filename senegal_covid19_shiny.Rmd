@@ -27,7 +27,7 @@ library(plotly)
 
 source("R/sencovid19.R")
 
-decedes <- last(sencovid_cumule$total_decedes) 
+decedes <- max(sencovid_cumule$total_decedes) 
 gueris <- last(sencovid_cumule$total_gueris) 
 total <- last(sencovid_cumule$total_confirmes)
 

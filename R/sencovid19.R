@@ -85,7 +85,7 @@ gg_sen_epi <- covid19_cas2  %>%
                expand = expansion(0, 0), 
                limits = c(min_dt, max_dt))+
   theme_tufte() +
-  theme(axis.text = element_text(size = 12))
+  theme(axis.text = element_text(size = 11))
 
 gg_sen_epi2 <- gg_sen_epi + 
   geom_text(data = covid19_daily, aes(date, nombre, label = nombre), 
