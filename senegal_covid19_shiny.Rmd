@@ -108,7 +108,7 @@ mainPanel(
   plotlyOutput("plot2", width = "100%")))
 
 output$plot2 <- renderPlotly({
-print(sen_epic2)
+print(sen_epic2 %>% layout(width = 1400 ))
 })
 
 ```

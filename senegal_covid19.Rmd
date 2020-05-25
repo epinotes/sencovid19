@@ -141,7 +141,8 @@ w_plot <- updates %>%
     highlight = countries,
     type = "confirmed",
     edate_cutoff = 60
-  )
+  ) +
+  geom_line(size = 1.5)
 
 ggplotly(w_plot)
 
