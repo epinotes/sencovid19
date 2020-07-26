@@ -22,6 +22,7 @@ decedes <- max(sencovid_cumule$total_decedes)
 gueris <- last(sencovid_cumule$total_gueris) 
 total <- last(sencovid_cumule$total_confirmes)
 testes <- last(sencovid_cumule$nombre_testes)
+today_pos <- last(covid19_daily$nombre)
 
 library(knitr)
 library(rmarkdown)
@@ -29,6 +30,7 @@ library(flexdashboard)
 library(shiny)
 library(tsibble)
 library(tidycovid19)
+library(scales)
 
 ```
 
@@ -40,7 +42,7 @@ Sommaire
 
   Les donnees proviennent principalement des communiques officiels du ministere de la sante du gouvernement du Senegal. 
   Les dernieres donnees sont en date du __`r last_date `__.   
-  En ce meme jour __`r testes `__ personnes ont ete testees.   
+  En ce meme jour __`r testes `__ personnes ont ete testees resultant en __`r today_pos` (`r percent(today_pos/testes)`)__ cas positifs.   
   Ouvrez les onglets ci-dessus pour les courbes epidemiologiques, la comparison avec d'autres pays, et les sources d'information y compris les codes `R`. 
   
 </br>
@@ -140,7 +142,7 @@ w_plot <- updates %>%
   plot_covid19_spread(
     highlight = countries,
     type = "confirmed",
-    edate_cutoff = 60
+    edate_cutoff = 150
   ) +
   geom_line(size = 1.5)
 
@@ -159,9 +161,11 @@ Sources
 Row
 -------------------------------------   
 
-### Communiques Quotidiens  
+### Communiques Quotidiens et Tableau de Bord 
 
-[Communiques Quotidiens Du Ministere De La Sante Du Senegal](http://www.sante.gouv.sn/Pr%C3%A9sentation/coronavirus-informations-officielles-et-quotidiennes-du-msas){target="_blank"}
+[Communiques Quotidiens Du Ministere De La Sante Du Senegal](http://www.sante.gouv.sn/Pr%C3%A9sentation/coronavirus-informations-officielles-et-quotidiennes-du-msas){target="_blank"}  
+
+[Tableau de Bord](https://cartosantesen.maps.arcgis.com/apps/opsdashboard/index.html#/260c7842a77a48c191bf51c8b0a1d3f6){target="_blank"} 
 
 </br>
 
@@ -185,7 +189,7 @@ covid19_daily %>%
 
               filter = list(position = 'top', clear = FALSE),
 
-              options = list(autoWidth = T,
+              options = list(autoWidth = TRUE,
 
                   pageLength = 10, dom = 'Bfrtip',
 
