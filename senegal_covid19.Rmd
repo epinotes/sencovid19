@@ -16,13 +16,13 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       cache = FALSE)
 
-source("R/sencovid19.R")
+source("R/sencovid19_new.R")
 
-decedes <- max(sencovid_cumule$total_decedes) 
-gueris <- last(sencovid_cumule$total_gueris) 
-total <- last(sencovid_cumule$total_confirmes)
-testes <- last(sencovid_cumule$nombre_testes)
-today_pos <- last(covid19_daily$nombre)
+decedes <- total_decedes 
+gueris <- total_gueris
+total <- total_confirmes
+# testes <- last(sencovid_cumule$nombre_testes)
+today_pos <- last(covid19_sen$confirmed_daily)
 
 library(knitr)
 library(rmarkdown)
@@ -41,8 +41,7 @@ Sommaire
 </br>
 
   Les donnees proviennent principalement des communiques officiels du ministere de la sante du gouvernement du Senegal. 
-  Les dernieres donnees sont en date du __`r last_date `__.   
-  En ce meme jour __`r testes `__ personnes ont ete testees resultant en __`r today_pos` (`r percent(today_pos/testes)`)__ cas positifs.   
+  Les dernieres donnees sont en date du __`r last_date `__. 
   Ouvrez les onglets ci-dessus pour les courbes epidemiologiques, la comparison avec d'autres pays, et les sources d'information y compris les codes `R`. 
   
 </br>
@@ -91,21 +90,25 @@ valueBox(value = decedes,
 Epicurves
 =====================================
 
+* Les barres en vert indiquent les cas confirmes quotidiennement.  
+* La ligne rouge represente une semaine de moyenne mobile.
+* En defilant vers le bas vous verrez la courbe cumulative des cas confirmes.
 
 Row
 ------------------------------------- 
 
 ### Epicurve - Incidence 
+ 
 
 
 ```{r epicurvec, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
 
 sen_epic2
 
-  
+```  
 
-```
-
+ 
+</br>
 </br>
 
 Row
@@ -113,6 +116,7 @@ Row
 
 ### Epicurve - Cumulative
 
+Cette ligne montre le compte cummulatif quotidien des cas confirmes depuis le premier cas en Mars. 
 
 ```{r epi_cc, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
 
@@ -135,14 +139,14 @@ Row
 ```{r world, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
 # 
 # Download latest data
-updates <- download_merged_data(cached = TRUE)
+# updates <- download_merged_data(cached = TRUE)
 # Countries to highlight
 countries <- c("SEN", "ZAF","MAR","FRA", "ITA", "ESP", "USA", "CHN")
-w_plot <- updates %>%
+w_plot <- updates_x %>%
   plot_covid19_spread(
     highlight = countries,
     type = "confirmed",
-    edate_cutoff = 150
+    edate_cutoff = 200
   ) +
   geom_line(size = 1.5)
 
@@ -153,7 +157,7 @@ ggplotly(w_plot)
 
 </br>
 
-Sources
+Sources pour Confirmation et Dernieres Nouvelles
 =====================================   
 
 </br>
@@ -180,8 +184,8 @@ Row
 
 
 ```{r daily ,fig.width = 5} 
-covid19_daily %>% 
-         DT::datatable(caption = "Nombre de Cas Confirmes par Date",
+sen_dt %>% 
+         DT::datatable(caption = "Nombre de Cas Confirmes, decedes et gueris par Date",
 
                 rownames = FALSE,
 
