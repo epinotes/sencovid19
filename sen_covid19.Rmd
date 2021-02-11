@@ -1,0 +1,106 @@
+---
+title: "Donnees Quotidiennes Des Cas de COVID 19 Au Senegal"
+date: "`r Sys.Date()`"
+flexdashboard::flex_dashboard:
+  theme: journal
+---
+
+```{r setup, include=FALSE}
+# options(scipen = 12)
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      comment = NA,
+                      error   = FALSE,
+                      warning = FALSE,
+                      cache = FALSE)
+
+source("R/sencovid19.R")
+library(knitr)
+library(rmarkdown)
+library(flexdashboard)
+
+source("R/sencovid19_new")
+
+```
+
+
+
+  Les donnees sont preparees avec le R package [tidycovid19](https://github.com/joachim-gassen/tidycovid19).  
+ 
+    
+Row
+-------------------------------------   
+
+Les cas confirmes
+    
+### Confirmes
+    
+```{r}
+valueBox(value = total_confirmes,
+         color = "lightgreen",
+         icon = "fa-vial")
+
+```
+
+### Gueris
+    
+```{r}
+valueBox(value = total_gueris,
+         color = "gold",
+         icon = "fa-thumbs-up")
+
+```
+  
+### Decedes
+    
+```{r}
+valueBox(value = total_decedes,
+         color = "salmon",
+         icon = "fa-heartbeat")
+
+```
+  
+
+Row
+-------------------------------------      
+
+
+### Introduction  
+
+
+
+Row
+------------------------------------- 
+
+### Epicurve - Incidene 
+
+
+```{r epicurvec, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
+
+sen_epic2
+
+  
+
+```
+
+Row
+-------------------------------------   
+
+### Epicurve - Cumulative
+
+
+```{r epi_cc, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
+
+cum_epi
+
+```
+
+Row
+-------------------------------------   
+
+
+### Pour les denieres nouvelles et confimation  
+
+[Communiques Quotidiens Du Ministere De La Sante Du Senegal](http://www.sante.gouv.sn/Pr%C3%A9sentation/coronavirus-informations-officielles-et-quotidiennes-du-msas)
+
+

@@ -54,6 +54,8 @@ sencovid_cum <- sencovid_cum %>%
 covid19_cas2 <- covid19_cas %>% 
   bind_rows(sencovid_cum)
 
+
+
 ###
 
 last_date <- format(max(covid19_cas2$date), "%d/%m/%Y")

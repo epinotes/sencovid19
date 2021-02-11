@@ -112,3 +112,6 @@ sen_dt <- covid19_sen %>%
          confirmes_quotidiens = confirmed_daily, 
          decedes_quotidiens = deaths_daily, 
          gueris_quotidiens = recovered_daily) 
+
+sen_dt %>% 
+  write_csv("data/sencovid19.csv")
