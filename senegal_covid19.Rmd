@@ -34,28 +34,18 @@ library(scales)
 
 ```
 
-
-Sommaire
-=====================================
+# Sommaire
 
 </br>
 
-  Les donnees proviennent principalement des communiques officiels du ministere de la sante du gouvernement du Senegal. 
-  Les dernieres donnees sont en date du __`r last_date `__. 
-  Ouvrez les onglets ci-dessus pour les courbes epidemiologiques, la comparison avec d'autres pays, et les sources d'information y compris les codes `R`. 
-  
+Les donnees proviennent principalement des communiques officiels du ministere de la sante du gouvernement du Senegal. Les dernieres donnees sont en date du **`r last_date`**. Ouvrez les onglets ci-dessus pour les courbes epidemiologiques, la comparison avec d'autres pays, et les sources d'information y compris les codes `R`.
+
 </br>
 
+## Row
 
- 
-    
-Row
--------------------------------------   
+### Gueris
 
-
-
-### Gueris  
-    
 ```{r}
 valueBox(value = gueris,
          icon = "fa-thumbs-up",
@@ -64,8 +54,8 @@ valueBox(value = gueris,
 
 ```
 
-### Confirmes  
-    
+### Confirmes
+
 ```{r}
 flexdashboard::valueBox(value = total,
                         icon = "fa-area-chart",
@@ -74,8 +64,7 @@ flexdashboard::valueBox(value = total,
 
 ```
 
-
-### Decedes  
+### Decedes
 
 ```{r}
 valueBox(value = decedes,
@@ -86,37 +75,29 @@ valueBox(value = decedes,
 
 </br>
 
+# Epicurves
 
-Epicurves
-=====================================
+-   Les barres en vert indiquent les cas confirmes quotidiennement.\
+-   La ligne rouge represente une semaine de moyenne mobile.
+-   En defilant vers le bas vous verrez la courbe cumulative des cas confirmes.
 
-* Les barres en vert indiquent les cas confirmes quotidiennement.  
-* La ligne rouge represente une semaine de moyenne mobile.
-* En defilant vers le bas vous verrez la courbe cumulative des cas confirmes.
+## Row
 
-Row
-------------------------------------- 
-
-### Epicurve - Incidence 
- 
-
+### Epicurve - Incidence
 
 ```{r epicurvec, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
 
 sen_epic2
 
-```  
+```
 
- 
-</br>
-</br>
+</br> </br>
 
-Row
--------------------------------------   
+## Row
 
 ### Epicurve - Cumulative
 
-Cette ligne montre le compte cummulatif quotidien des cas confirmes depuis le premier cas en Mars. 
+Cette ligne montre le compte cummulatif quotidien des cas confirmes depuis le premier cas en Mars.
 
 ```{r epi_cc, layout="l-body-outset", fig.width= 8, fig.height= 6.5, fig.cap=''}
 
@@ -126,13 +107,11 @@ cum_epi
 
 </br>
 
-Comparison Mondiale
-=====================================   
+# Comparison Mondiale
 
 </br>
 
-Row
--------------------------------------   
+## Row
 
 ### Senegal compare Au Reste du Monde Depuis Le 100eme Cas
 
@@ -146,7 +125,7 @@ w_plot <- updates_x %>%
   plot_covid19_spread(
     highlight = countries,
     type = "confirmed",
-    edate_cutoff = 200
+    edate_cutoff = 350
   ) +
   geom_line(size = 1.5)
 
@@ -154,22 +133,19 @@ ggplotly(w_plot)
 
 ```
 
+</br>
+
+# Sources pour Confirmation et Dernieres Nouvelles
 
 </br>
 
-Sources pour Confirmation et Dernieres Nouvelles
-=====================================   
+## Row
 
-</br>
+### Communiques Quotidiens et Tableau de Bord
 
-Row
--------------------------------------   
+[Communiques Quotidiens Du Ministere De La Sante Du Senegal](http://www.sante.gouv.sn/Pr%C3%A9sentation/coronavirus-informations-officielles-et-quotidiennes-du-msas){target="_blank"}
 
-### Communiques Quotidiens et Tableau de Bord 
-
-[Communiques Quotidiens Du Ministere De La Sante Du Senegal](http://www.sante.gouv.sn/Pr%C3%A9sentation/coronavirus-informations-officielles-et-quotidiennes-du-msas){target="_blank"}  
-
-[Tableau de Bord](https://cartosantesen.maps.arcgis.com/apps/opsdashboard/index.html#/260c7842a77a48c191bf51c8b0a1d3f6){target="_blank"} 
+[Tableau de Bord](https://cartosantesen.maps.arcgis.com/apps/opsdashboard/index.html#/260c7842a77a48c191bf51c8b0a1d3f6){target="_blank"}
 
 </br>
 
@@ -177,13 +153,11 @@ Voir aussi la page [GitHub](https://github.com/epinotes/sencovid19) pour les cod
 
 </br>
 
-Row
--------------------------------------   
+## Row
 
 ### Tableau Des Cas Confirmes Par Jour
 
-
-```{r daily ,fig.width = 5} 
+```{r daily ,fig.width = 5}
 sen_dt %>% 
          DT::datatable(caption = "Nombre de Cas Confirmes, decedes et gueris par Date",
 
@@ -203,4 +177,3 @@ sen_dt %>%
 
   ))
 ```
-

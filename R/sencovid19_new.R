@@ -6,6 +6,8 @@ library(scales)
 library(zoo)
 library(plotly)
 
+# https://rpubs.com/epinotes/senegalcovid19
+
 updates_x <- tidycovid19::download_merged_data(cached = TRUE)
 covid19_sen <- updates_x %>% 
   filter(country == "Senegal",
@@ -21,12 +23,12 @@ find_daily <- function(x){
 covid19_sen <- covid19_sen %>%
   mutate(across(c(confirmed, deaths, recovered),
                 .fns = find_daily,
-                .names = "{.col}_daily")) %>% 
+                .names = "{col}_daily")) %>% 
   select(iso3c, country, date, confirmed, deaths, recovered, 
          confirmed_daily, deaths_daily, recovered_daily, everything()) 
 
 
-last_date <- format(max(covid19_sen$date), "%d/%m/%Y")
+last_date <- format(max(covid19_sen$date),"%B %d %Y")
 
 min_dt <- min(covid19_sen$date)
 max_dt <- max(covid19_sen$date)+1
